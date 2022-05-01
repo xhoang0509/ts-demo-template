@@ -1,57 +1,52 @@
-interface IAddress {
-  city: string;
-}
-
 interface IContact {
   name: string;
   phone: string;
   email?: string;
-  address?: IAddress[];
 }
 
-const contacts: IContact[] = [];
+class MyContact implements IContact {
+  name: string;
+  phone: string;
 
-const newContact: IContact = {
-  name: 'Nguyen Van A',
-  phone: '0123456',
-  email: 'nguyenvana@gmail.com',
-  address: [
-    {
-      city: 'Bac Giang',
-    },
-  ],
-};
-
-const someContact: IContact = {
-  name: 'Nguyen Van B',
-  phone: '0123456',
-};
-
-contacts.push(newContact);
-
-const getFirstAddress = (contact: IContact) => {
-  return contact.address?.[0];
-};
-
-console.log(getFirstAddress(newContact));
-console.log(getFirstAddress(someContact));
-
-// extends interface
-interface IButton {
-  label: string;
-  onClick: () => void;
+  constructor(name: string, phone: string) {
+    this.name = name;
+    this.phone = phone;
+  }
 }
 
-interface IIconButton extends IButton {
-  icon: string;
+const a = new MyContact('A', '123');
+console.log(a.name);
+
+// =====================
+interface IContactAdapter {
+  getData: () => Promise<IContact[]>;
 }
 
-const cartIconButton: IIconButton = {
-  label: 'Add to cart',
-  onClick: () => {
-    console.log('Clicked');
-  },
-  icon: 'cart-icon',
-};
+class MyContactAdapter implements IContactAdapter {
+  async getData() {
+    // TODO: get data from API
+    const contacts: IContact[] = await [
+      { name: 'A', phone: '123' },
+      { name: 'B', phone: '456' },
+    ];
+    return contacts;
+  }
+}
 
-console.log(cartIconButton.icon);
+class ContactApp {
+  adapter: IContactAdapter;
+  constructor(adapter: IContactAdapter) {
+    this.adapter = adapter;
+  }
+
+  async render() {
+    const contacts: IContact[] =
+      await this.adapter.getData();
+
+    console.table(contacts);
+  }
+}
+
+const adapter = new MyContactAdapter();
+const b = new ContactApp(adapter);
+b.render();
