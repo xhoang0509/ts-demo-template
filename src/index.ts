@@ -35,3 +35,23 @@ const getFirstAddress = (contact: IContact) => {
 
 console.log(getFirstAddress(newContact));
 console.log(getFirstAddress(someContact));
+
+// extends interface
+interface IButton {
+  label: string;
+  onClick: () => void;
+}
+
+interface IIconButton extends IButton {
+  icon: string;
+}
+
+const cartIconButton: IIconButton = {
+  label: 'Add to cart',
+  onClick: () => {
+    console.log('Clicked');
+  },
+  icon: 'cart-icon',
+};
+
+console.log(cartIconButton.icon);
