@@ -4,9 +4,15 @@ interface IContact {
   email?: string;
 }
 
+// interface declaration merging
+interface IContact {
+  isDeleted: boolean;
+}
+
 class MyContact implements IContact {
   name: string;
   phone: string;
+  isDeleted: boolean;
 
   constructor(name: string, phone: string) {
     this.name = name;
@@ -26,8 +32,8 @@ class MyContactAdapter implements IContactAdapter {
   async getData() {
     // TODO: get data from API
     const contacts: IContact[] = await [
-      { name: 'A', phone: '123' },
-      { name: 'B', phone: '456' },
+      { name: 'A', phone: '123', isDeleted: true },
+      { name: 'B', phone: '456', isDeleted: true },
     ];
     return contacts;
   }
