@@ -55,3 +55,15 @@ const cartIconButton: IIconButton = {
 };
 
 console.log(cartIconButton.icon);
+
+function foo() {
+  let i: string;
+
+  if (Math.random() > 0.5) {
+    i = '5';
+  } else {
+    i = '10';
+  }
+
+  i.toLowerCase();
+}
